@@ -8,108 +8,120 @@
   <style>
     body {
       margin: 0;
-      background: #0f2b4c;
+      background: #0e2a47;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
       display: flex;
       flex-direction: column;
       align-items: center;
-      color: #0f2b4c;
+      color: #0e2a47;
     }
 
     .ticket {
-      margin-top: 40px;
+      margin-top: 36px;
       width: 90%;
       max-width: 360px;
       background: #eeeeee;
-      border-radius: 14px;
+      border-radius: 16px;
       position: relative;
-      padding-bottom: 28px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      padding-bottom: 30px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.35);
     }
 
-    /* ticket perforation */
-    .ticket:before,
-    .ticket:after {
+    /* Top & bottom perforation */
+    .ticket::before,
+    .ticket::after {
       content: "";
       position: absolute;
-      left: -14px;
-      right: -14px;
-      height: 28px;
+      left: 0;
+      right: 0;
+      height: 18px;
       background:
-        radial-gradient(circle at 14px 14px, transparent 14px, #0f2b4c 15px);
+        radial-gradient(circle at 9px 9px, transparent 9px, #0e2a47 10px);
+      background-size: 18px 18px;
     }
 
-    .ticket:before {
-      top: -14px;
-    }
+    .ticket::before { top: -9px; }
+    .ticket::after { bottom: -9px; transform: rotate(180deg); }
 
-    .ticket:after {
-      bottom: -14px;
-      transform: rotate(180deg);
+    /* Side cuts */
+    .cut {
+      position: absolute;
+      top: 78px;
+      width: 28px;
+      height: 28px;
+      background: #0e2a47;
+      border-radius: 50%;
     }
+    .cut.left { left: -14px; }
+    .cut.right { right: -14px; }
 
     .header {
-      padding: 20px;
-      text-align: center;
-      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 22px 20px 14px;
+    }
+
+    .logo {
+      height: 36px;
     }
 
     .divider {
-      margin: 0 20px 20px;
-      border-top: 2px dotted #0f2b4c;
+      margin: 0 20px 18px;
+      border-top: 2px dotted #0e2a47;
     }
 
     .queue-box {
       margin: 0 20px;
-      background: #f8f8f8;
-      border-radius: 14px;
-      padding: 22px 12px;
+      background: #f9f9f9;
+      border-radius: 16px;
+      padding: 22px 12px 26px;
       text-align: center;
     }
 
     .kh-label {
-      font-size: 14px;
-      margin-bottom: 2px;
+      font-size: 15px;
       font-weight: 500;
+      margin-bottom: 2px;
     }
 
     .en-label {
       font-size: 13px;
-      color: #4f647c;
-      margin-bottom: 12px;
+      color: #5a6f86;
+      margin-bottom: 14px;
     }
 
     .queue-number {
-      font-size: 64px;
+      font-size: 68px;
       font-weight: 700;
       letter-spacing: 4px;
-      color: #0f2b4c;
     }
 
     .branch {
-      text-align: center;
       margin-top: 18px;
+      text-align: center;
       font-size: 14px;
       font-weight: 500;
     }
 
     .datetime {
-      text-align: center;
       margin-top: 6px;
+      text-align: center;
       font-size: 12px;
-      color: #6b7f95;
+      color: #6f8498;
     }
 
     .save-area {
-      margin: 36px 0 24px;
+      margin: 34px 0 24px;
       text-align: center;
       color: #ffffff;
     }
 
     .save-btn {
-      width: 52px;
-      height: 52px;
-      background: #1c5fd4;
+      width: 54px;
+      height: 54px;
+      background: #1e63d9;
       border-radius: 14px;
       display: flex;
       align-items: center;
@@ -120,7 +132,7 @@
 
     .save-text {
       font-size: 14px;
-      opacity: 0.9;
+      opacity: 0.95;
     }
   </style>
 </head>
@@ -128,8 +140,15 @@
 <body>
 
   <div class="ticket">
+    <div class="cut left"></div>
+    <div class="cut right"></div>
+
     <div class="header">
-      ACLEDA BANK
+      <img
+        src="https://www.temenos.com/wp-content/uploads/2019/02/AcledaBank-logo.png"
+        class="logo"
+        alt="ACLEDA Bank"
+      />
     </div>
 
     <div class="divider"></div>
@@ -141,7 +160,9 @@
     </div>
 
     <div class="branch">សាខាសៀមរាប</div>
-    <div class="branch" style="font-weight:400">Seim Reap Provincial Branch</div>
+    <div class="branch" style="font-weight:400">
+      Seim Reap Provincial Branch
+    </div>
 
     <div class="datetime" id="time"></div>
   </div>
@@ -156,7 +177,8 @@
     let num = params.get("r");
 
     if (num) {
-      document.getElementById("queue").innerText = num.padStart(4, "0");
+      document.getElementById("queue").innerText =
+        num.padStart(4, "0");
     }
 
     const now = new Date();
@@ -165,8 +187,7 @@
         day: "2-digit",
         month: "long",
         year: "numeric"
-      }) +
-      ", " +
+      }) + ", " +
       now.toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit"
