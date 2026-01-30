@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>QR Result</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 40vh;
+      font-size: 48px;
+    }
+  </style>
+</head>
+<body>
+  <div id="number">Loading...</div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const value = params.get("r");
+
+    document.getElementById("number").innerText =
+      value ? value : "Invalid QR";
+  </script>
+</body>
+</html>
